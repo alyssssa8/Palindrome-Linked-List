@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ class Solution {
+ public:
+	 bool isPalindrome(ListNode* head) {
+
+		 stack<int> tempStack;
+		 ListNode* newStore = head;
+		 ListNode* fast = head;
+		 ListNode* newHead;
+
+		 if (head == NULL) {
+			 return true;
+		 }
+		 while (fast != NULL) {  //[1,2,1], [1,2,2,1] 
+
+			 if (fast->next == NULL) {
+				 newHead = newStore->next;
+				 fast = NULL;
+			 }
+			 else if (fast->next->next == NULL) { //[1,2]
+				 newHead = newStore->next;
+				 tempStack.push(newStore->val);
+				 fast = NULL;
+			 }
+			 else {
+				 tempStack.push(newStore->val);
+				 newStore = newStore->next;
+				 fast = fast->next->next;
+
+			 }
+		 }
+		 while (newHead != NULL && newHead->val == tempStack.top()) {
+			 newHead = newHead->next;
+			 tempStack.pop();
+		 }
+		 if (tempStack.empty() == true) {
+			 return true;
+		 }
+		 else {
+			 return false;
+		 }
+
+	 }
+ };
+ 
+ 
+ class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* first = head;
+		ListNode* second = head;
+      	stack<int> temp;
+        int count = 0;
+        while(first!=NULL){
+            temp.push(first->val);
+            first = first->next;
+            count++;
+        }
+        int temp2= 0;
+        while(temp2 <= count / 2 && head!=NULL){
+            if (temp.top()!= second->val){
+                return false;
+            }
+            temp.pop();
+            second = second->next;
+            temp2++;
+        }
+        return true;
+    }
+};
